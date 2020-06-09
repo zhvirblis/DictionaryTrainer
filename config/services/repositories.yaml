@@ -1,0 +1,18 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+ 
+    App\Repository\:
+        resource: '../../src/Repository'
+ 
+    app.entity_repository.user:
+        class: Doctrine\ORM\EntityRepository
+        factory: ['@doctrine.orm.entity_manager', getRepository]
+        arguments:
+            - App\Entity\User
+ 
+    App\Repository\UserRepository:
+        arguments:
+            $entityRepository: '@app.entity_repository.user'
