@@ -1,0 +1,15 @@
+fos_rest:
+    disable_csrf_role: ROLE_ADMIN
+    allowed_methods_listener: true
+    param_fetcher_listener: true
+    body_listener: true
+    format_listener:
+        enabled: true
+        rules:
+            - { path: '^/', priorities: ['html'], fallback_format: 'html' }
+            - { path: '^/api', priorities: ['json'], fallback_format: 'json' }
+    versioning: true
+    view:
+        view_response_listener: 'force'
+    #routing_loader:
+    #    default_format: json
