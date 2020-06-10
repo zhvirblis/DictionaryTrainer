@@ -27,6 +27,9 @@ security:
         #       success_handler:          lexik_jwt_authentication.handler.authentication_success
         #       failure_handler:          lexik_jwt_authentication.handler.authentication_failure
         #       require_previous_session: false
+        login:
+            pattern:   ^/api/token
+            anonymous: ~
         register:
             pattern:   ^/api/register
             anonymous: ~
