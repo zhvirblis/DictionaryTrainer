@@ -20,6 +20,7 @@ class App extends React.Component {
             currentUser: undefined
         };
         this.handleToUpdate  = this.handleSetUser.bind(this);
+        this.handleLogout  = this.handleLogout.bind(this);
     }
 
     handleSetUser(user){
@@ -36,9 +37,25 @@ class App extends React.Component {
         };
     }
 
+    handleLogout() {
+        userService.logout();
+        this.setState({
+            currentUser: undefined
+        })
+    }
+
     render() {
         return (
             <Router>
+                <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+                    <Link className="navbar-brand" to="/">Dictionary Trainer</Link>
+                    <div className="collapse navbar-collapse">
+                        <div className="navbar-nav">
+                            <Link className="nav-item nav-link" to="/about">About</Link>
+                            {this.state.currentUser && (<a className="nav-item nav-link" onClick={this.handleLogout} href="#">Logout</a>)}
+                        </div>
+                    </div>
+                </nav>
                 <div>
                     <Switch>
                         <Route exact path="/">
