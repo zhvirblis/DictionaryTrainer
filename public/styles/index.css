@@ -3,13 +3,19 @@
     margin: 2px auto;
     text-align: center;
 }
-.login-form input[type="email"] {
+
+.login-form input[type="username"] {
     margin-bottom: -1px;
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
 }
+
 .login-form input[type="password"] {
     margin-bottom: 10px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
+}
+
+.auth-error {
+    margin-top: 20px;
 }

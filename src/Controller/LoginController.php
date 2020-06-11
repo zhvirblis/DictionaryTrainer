@@ -38,7 +38,7 @@ class LoginController extends AbstractFOSRestController {
             $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['username' => $username]);
             
             if (!$user) {
-                throw $this->createNotFoundException();
+                throw new BadCredentialsException();
             }
 
             $isValid = $this->passwordEncoder->isPasswordValid($user, $password);

@@ -1,5 +1,5 @@
 import React from 'react';
-import loginService from  "./../../Services/login";
+import userService from  "./../../Services/user";
 
 class Login extends React.Component {
     constructor() {
@@ -7,7 +7,8 @@ class Login extends React.Component {
 
         this.state = {
             loginUsername: '',
-            loginPassword: ''
+            loginPassword: '',
+            errorMessage: ''
         };
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleLogin = this.handleLogin.bind(this);
@@ -18,26 +19,43 @@ class Login extends React.Component {
         const value = target.value;
         const name = target.name;
         this.setState({
-            [name]: value
+            [name]: value,
+            errorMessage: ''
         });
     }
 
     handleLogin(event) {
         event.preventDefault();
         console.log('Work!');
-        loginService(this.state.loginUsername, this.state.loginPassword)
+        userService.login(this.state.loginUsername, this.state.loginPassword)
             .then((res) => {
                 if(res.status === 200) {
                     res.json().then((res) => {
                         console.log(res);
+                        if(res.access_token) {
+                            let user = JSON.stringify(res);
+                            localStorage.setItem("user", user);
+                            this.props.handleSetUser(user);
+                        }
+                        
                     });
                 }
                 else {
-                    console.log('Err', res);
+                    if(res.status && res.status === 401) {
+                        this.setState({
+                            errorMessage: 'Username or password is incorect'
+                        });
+                    } else {
+                        this.setState({
+                            errorMessage: 'Error: ' + res.status + ' ' + res.statusText
+                        });
+                    }
                 }
             })
             .catch((err) => {
-                console.log(err);
+                this.setState({
+                    errorMessage: 'Network error'
+                });
             });	
     }
 
@@ -45,10 +63,10 @@ class Login extends React.Component {
         return (
             <form className="login-form" onSubmit={this.handleLogin}>
                 <h1 className="h3 mb-3 font-weight-normal">Please sign in ^^</h1>
-                <label htmlFor="inputEmail" className="sr-only">Email address</label>
+                <label htmlFor="inputUsername" className="sr-only">Email address</label>
                 <input
                     type="username"
-                    id="inputEmail"
+                    id="inputUsername"
                     className="form-control"
                     name="loginUsername"
                     placeholder="Username"
@@ -66,6 +84,9 @@ class Login extends React.Component {
                     onChange={this.handleInputChange}
                     required />
                 <button className="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                { this.state.errorMessage && (<div className="alert alert-danger auth-error" role="alert">
+                    {this.state.errorMessage}
+                </div>)}
             </form>
         );
     }
