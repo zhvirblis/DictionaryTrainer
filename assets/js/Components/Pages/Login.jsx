@@ -8,7 +8,8 @@ class Login extends React.Component {
         this.state = {
             loginUsername: '',
             loginPassword: '',
-            errorMessage: ''
+            errorMessage: '',
+            isLoading: false
         };
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleLogin = this.handleLogin.bind(this);
@@ -26,9 +27,10 @@ class Login extends React.Component {
 
     handleLogin(event) {
         event.preventDefault();
-        console.log('Work!');
+        this.setState({isLoading: true});
         userService.login(this.state.loginUsername, this.state.loginPassword)
             .then((res) => {
+                this.setState({isLoading: false});
                 if(res.status === 200) {
                     res.json().then((res) => {
                         console.log(res);
@@ -54,7 +56,8 @@ class Login extends React.Component {
             })
             .catch((err) => {
                 this.setState({
-                    errorMessage: 'Network error'
+                    errorMessage: 'Network error',
+                    isLoading: false
                 });
             });	
     }
@@ -83,7 +86,7 @@ class Login extends React.Component {
                     placeholder="Password"
                     onChange={this.handleInputChange}
                     required />
-                <button className="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                <button className="btn btn-lg btn-primary btn-block" type="submit" disabled={this.state.isLoading}>{this.state.isLoading ? 'Loading' : 'Sign in'}</button>
                 { this.state.errorMessage && (<div className="alert alert-danger auth-error" role="alert">
                     {this.state.errorMessage}
                 </div>)}

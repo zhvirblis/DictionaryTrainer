@@ -61,7 +61,11 @@ class JwtAuthenticator extends AbstractGuardAuthenticator
 
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
-        $data = $this->jwtEncoder->decode($credentials);
+        try {
+            $data = $this->jwtEncoder->decode($credentials);
+        } catch(\Exception $e) {
+            throw new CustomUserMessageAuthenticationException($e->getMessage());
+        }
 
         if ($data == false) {
             throw new CustomUserMessageAuthenticationException('Invalid Token');
