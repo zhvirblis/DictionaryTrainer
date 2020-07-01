@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Security\Core\User\UserInterface;
+use App\Entity\Dictionary;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -40,7 +41,16 @@ class User implements UserInterface
     /**
      * @ORM\Column(name="roles", type="json")
      */
-    private $roles = [];
+	private $roles = [];
+	
+	/**
+	* @ORM\OneToMany(targetEntity="Dictionary", mappedBy="author")
+	*/
+	protected $dictionaries;
+
+	public function __construct() {
+		$this->dictionaries = new ArrayCollection();
+	}
 
 	public function getId(): int
 	{
@@ -122,4 +132,7 @@ class User implements UserInterface
 		return $this;
 	}
 
+	public function addDictionary(Dictionary $dictionary) {
+		$this->dictionaries[] = $dictionary;
+	}
 }
