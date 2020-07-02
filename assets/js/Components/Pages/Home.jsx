@@ -1,6 +1,7 @@
 import React from 'react';
 import dictService from  "./../../Services/dict";
-import userService from './../../Services/user';
+import userService from "./../../Services/user";
+import AddNewDicrionary from "./../Parts/AddNewDicrionary"
 
 class Home extends React.Component {
     constructor() {
@@ -29,9 +30,10 @@ class Home extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="container-sm">
                 Home
                 <button onClick={this.handleCheck}>Check</button>
+                <AddNewDicrionary />
             </div>
         );
     }

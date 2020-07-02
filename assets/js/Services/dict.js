@@ -10,5 +10,18 @@ export default {
                 ...userService.authHeader()
             }
         });
+    },
+    add: function(name) {
+        return fetch('/api/dictionary', {
+            method: "POST",
+            credentials: "same-origin",
+            headers: {
+                "Content-Type": "application/json",
+                ...userService.authHeader()
+            },
+            body: JSON.stringify({
+                name: name
+            })
+        });
     }
 }

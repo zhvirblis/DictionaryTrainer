@@ -9,12 +9,4 @@ class DictionaryRepository extends ServiceEntityRepository
         parent::__construct($registry, Term::class);
     }
 
-    /**
-     * @ORM\Id
-	 * @ORM\Column(type="integer")
-	 * @ORM\GeneratedValue(strategy="AUTO")
-	 */
-	private $id;
-    
-    
 }

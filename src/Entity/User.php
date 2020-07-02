@@ -46,7 +46,7 @@ class User implements UserInterface
 	/**
 	* @ORM\OneToMany(targetEntity="Dictionary", mappedBy="author")
 	*/
-	protected $dictionaries;
+	protected $dictionaries = [];
 
 	public function __construct() {
 		$this->dictionaries = new ArrayCollection();
@@ -132,7 +132,13 @@ class User implements UserInterface
 		return $this;
 	}
 
-	public function addDictionary(Dictionary $dictionary) {
+	public function addDictionary(Dictionary $dictionary): void
+	{
 		$this->dictionaries[] = $dictionary;
+	}
+
+	public function getDictionaries()
+	{
+		return $this->dictionaries;
 	}
 }

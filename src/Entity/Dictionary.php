@@ -20,7 +20,7 @@ class Dictionary
     private $id;
 
     /**
-	 * @ORM\Column(name="name", type="string", length=100, nullable=false, unique=true)
+	 * @ORM\Column(name="name", type="string", length=100, nullable=false, unique=false)
 	 */
     private $name;
     
@@ -32,6 +32,17 @@ class Dictionary
     public function getId(): int
 	{
 		return $this->id;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
     }
     
     public function setAuthor(User $author)
