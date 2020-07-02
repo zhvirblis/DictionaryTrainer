@@ -1,39 +1,44 @@
 import React from 'react';
 import dictService from  "./../../Services/dict";
 import userService from "./../../Services/user";
-import AddNewDicrionary from "./../Parts/AddNewDicrionary"
+import AddNewDicrionary from "./../Parts/AddNewDicrionary";
+import DictionaryList from "./../Parts/DictionaryList";
 
 class Home extends React.Component {
     constructor() {
         super();
 
         this.state = {
-            entries: []
+            dictionaries: []
         };
 
-        this.handleCheck = this.handleCheck.bind(this);
+        this.update = this.update.bind(this);
     }
 
-    handleCheck() {
+    componentDidMount() {
+        this.update();
+    }
+
+    update() {
         dictService.get().then((res) => {
-            console.log(res);
-            //if(res.status === 200) {
+            if(res.status === 200) {
                 res.json().then((res) => {
-                    console.log(res);
+                    this.setState({
+                        dictionaries: res
+                    });
                 });
-                if(res.status !== 200) {
-                    userService.logout();
-                }
-            //}
+            }
+            if(res.status === 401) {
+                userService.logout();
+            }
         });
     }
 
     render() {
         return (
             <div className="container-sm">
-                Home
-                <button onClick={this.handleCheck}>Check</button>
-                <AddNewDicrionary />
+                <AddNewDicrionary update={this.update}/>
+                <DictionaryList dictionaries={this.state.dictionaries}/>
             </div>
         );
     }

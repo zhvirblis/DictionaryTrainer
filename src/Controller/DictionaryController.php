@@ -23,8 +23,17 @@ class DictionaryController extends AbstractController
     public function index(Request $request)
     {
         $user = $this->getUser();
-        $userEntity = new User();
-        $dictionaries = $userEntity->getDictionaries();
+        
+        $repository = $this->getDoctrine()->getRepository(Dictionary::class);
+        $dictionaries = $repository->findBy([
+            "author" => $user->getId()
+        ]);
+        $dictionaries = array_map(function($dict){
+            return array(
+                "id" => $dict->getId(),
+                "name" => $dict->getName()
+            );
+        }, $dictionaries);
         return new JsonResponse($dictionaries);
     }
 

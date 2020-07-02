@@ -56,7 +56,7 @@ class App extends React.Component {
                         </div>
                     </div>
                 </nav>
-                <div>
+                <div className="page">
                     <Switch>
                         <Route exact path="/">
                             {!this.state.currentUser && (<Login handleSetUser={this.handleSetUser.bind(this)}/>)}

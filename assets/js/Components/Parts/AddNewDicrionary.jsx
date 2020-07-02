@@ -21,6 +21,7 @@ class AddNewDicrionary extends React.Component {
                 console.log(res);
                 res.json().then((res) => {
                     console.log(res);
+                    this.props.update()
                 });
             })
             .catch();
@@ -44,8 +45,9 @@ class AddNewDicrionary extends React.Component {
                     name="newDictionaryName"
                     value={this.state.newDictionaryName}
                     onChange={this.handleInputChange}
+                    placeholder="Name"
                 ></input>
-                <button onClick={this.handleAddDictionary}>Add New</button>
+                <button className="btn btn-primary" onClick={this.handleAddDictionary}>Add New</button>
             </div>
         );
     }
