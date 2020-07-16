@@ -5,6 +5,8 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\User;
+use App\Entity\Term;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\DictionaryRepository")
@@ -28,6 +30,15 @@ class Dictionary
      * @ORM\ManyToOne(targetEntity="User", inversedBy="dictionaries")
      */
     protected $author;
+
+    /**
+	* @ORM\OneToMany(targetEntity="Term", mappedBy="dictionary")
+	*/
+    protected $terms = [];
+
+    public function __construct() {
+		$this->terms = new ArrayCollection();
+	}
     
     public function getId(): int
 	{
@@ -54,5 +65,15 @@ class Dictionary
     public function getAuthor()
     {
         return $this->author;
+    }
+
+    public function addTerm(Term $term): void
+	{
+		$this->terms[] = $term;
+    }
+    
+    public function getTerms()
+    {
+        return $this->terms;
     }
 }

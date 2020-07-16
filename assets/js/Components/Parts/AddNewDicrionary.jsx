@@ -18,9 +18,7 @@ class AddNewDicrionary extends React.Component {
     handleAddDictionary() {
         dictService.add(this.state.newDictionaryName)
             .then((res) => {
-                console.log(res);
                 res.json().then((res) => {
-                    console.log(res);
                     this.props.update()
                 });
             })
@@ -39,15 +37,18 @@ class AddNewDicrionary extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="input-group mb-3">
                 <input
                     type="text"
+                    className="form-control"
                     name="newDictionaryName"
                     value={this.state.newDictionaryName}
                     onChange={this.handleInputChange}
                     placeholder="Name"
                 ></input>
-                <button className="btn btn-primary" onClick={this.handleAddDictionary}>Add New</button>
+                <div className="input-group-append">
+                    <button className="btn btn-primary btn" onClick={this.handleAddDictionary}>Add New</button>
+                </div>
             </div>
         );
     }

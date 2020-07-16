@@ -2,7 +2,6 @@ import React from 'react';
 
 function DictionaryList(props) {
     const dictionaries = props.dictionaries;
-    console.log(dictionaries);
     const listItems = dictionaries.map((dictionary) =>
         <div className="card" key={dictionary.id}>
             <div className="card-body">

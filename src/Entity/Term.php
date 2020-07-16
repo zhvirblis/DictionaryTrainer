@@ -4,43 +4,45 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Dictionary;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TermRepository")
+ * @ORM\Table(name="term")
  */
 class Term
 {
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", name="id")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", name="origin")
      */
     private $origin;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", name="transcription", nullable=true)
      */
     private $transcription;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", name="translate")
      */
     private $translate;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", name="helper", nullable=true)
      */
     private $helper;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $listId;
+    private $dictionaryId;
 
     public function getId(): ?int
     {
@@ -49,11 +51,60 @@ class Term
 
     public function getOrigin(): ?string
     {
-        return $this->$origin;
+        return $this->origin;
+    }
+
+    public function setOrigin(string $origin) {
+        $this->origin = $origin;
+        return $this;
     }
 
     public function getTranscription(): ?string
     {
-        return $this->$transcription;
+        return $this->transcription;
+    }
+
+    public function setTranscription(string $transcription)
+    {
+        $this->transcription = $transcription;
+        return $this;
+    }
+
+    public function setTranslate(string $translate)
+    {
+        $this->translate = $translate;
+        return $this;
+    }
+
+    public function getTranslate()
+    {
+        return $this->translate;
+    }
+
+    public function setHelper(string $helper)
+    {
+        $this->helper = $helper;
+        return $this;
+    }
+
+    public function getHelper()
+    {
+        return $this->helper;
+    }
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Dictionary", inversedBy="terms")
+     */
+    protected $dictionary;
+
+    public function setDictionary(Dictionary $dictionary)
+    {
+        $dictionary->addTerm($this);
+        $this->dictionary = $dictionary;
+    }
+
+    public function getDictionary()
+    {
+        return $this->dictionaryId;
     }
 }

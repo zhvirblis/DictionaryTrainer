@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class DefaultController extends AbstractController
 {
     /**
-     * @Route("/{page}", defaults={"page": "home"}, name="default")
+     * @Route("/{page}", requirements={"page"="(?!api).+"}, defaults={"page": "home"}, name="default")
      */
     public function index()
     {

@@ -7,8 +7,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\User;
+use App\Entity\Term;
 use App\Entity\Dictionary;
 use App\Form\DictionaryType;
+use App\Form\TermType;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
@@ -18,7 +20,7 @@ class DictionaryController extends AbstractController
 {
 
     /**
-     * @Route(name="get_dictionary", methods="GET")
+     * @Route(name="get_dictionaries", methods="GET")
      */
     public function index(Request $request)
     {
@@ -58,5 +60,47 @@ class DictionaryController extends AbstractController
         }
 
         throw new HttpException(400, "Invalid data");
+    }
+
+
+    /**
+     * @Route("/{id}", methods="GET")
+     */
+    public function getToken(Request $request, $id)
+    {
+        $user = $this->getUser();
+        $repository = $this->getDoctrine()->getRepository(Dictionary::class);
+        $dictionary = $repository->findOneBy([
+            "author" => $user->getId(),
+            "id" => $id
+        ]);
+        $terms = $dictionary->getTerms();
+        return new JsonResponse(array(
+            "id" => $dictionary->getId(),
+            "name" => $dictionary->getName()
+        ));
+    }
+    /**
+     * @Route("/{id}/addTerm", methods="POST")
+     */
+    public function addTerms(Request $request, $id) {
+        $user = $this->getUser();
+        $repository = $this->getDoctrine()->getRepository(Dictionary::class);
+        $dictionary = $repository->findOneBy([
+            "author" => $user->getId(),
+            "id" => $id
+        ]);
+        $term = new Term(); 
+        $form = $this->createForm(TermType::class, $term);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            //$dictionary->addTerm($term);
+            $em = $this->getDoctrine()->getManager();
+            $term->setDictionary($dictionary);
+            $em->persist($term);
+            $em->flush();
+        }
+        return new JsonResponse(['status' => 'ok']);
     }
 }
