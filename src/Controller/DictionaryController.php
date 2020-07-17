@@ -66,18 +66,30 @@ class DictionaryController extends AbstractController
     /**
      * @Route("/{id}", methods="GET")
      */
-    public function getToken(Request $request, $id)
+    public function getDictionary(Request $request, $id)
     {
         $user = $this->getUser();
         $repository = $this->getDoctrine()->getRepository(Dictionary::class);
+        $repTerm = $this->getDoctrine()->getRepository(Term::class);
         $dictionary = $repository->findOneBy([
             "author" => $user->getId(),
             "id" => $id
         ]);
-        $terms = $dictionary->getTerms();
+        $terms = $repTerm->findBy([
+            "dictionaryId" => $dictionary->getId()
+        ]);
         return new JsonResponse(array(
             "id" => $dictionary->getId(),
-            "name" => $dictionary->getName()
+            "name" => $dictionary->getName(),
+            "terms" => array_map(function($term){
+                return array(
+                    "id" => $term->getId(),
+                    "origin" => $term->getOrigin(),
+                    "transcription" => $term->getTranscription(),
+                    "translate" => $term->getTranslate(),
+                    "helper" => $term->getHelper()
+                );
+            }, $terms)
         ));
     }
     /**

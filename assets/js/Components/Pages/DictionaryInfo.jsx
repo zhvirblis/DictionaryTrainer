@@ -2,6 +2,7 @@ import React from 'react';
 import dictService from  "./../../Services/dict";
 import userService from "./../../Services/user";
 import AddNewDicrionary from "./../Parts/AddNewTerm";
+import TermList from "./../Parts/TermList";
 
 class DictionaryInfo extends React.Component {
     constructor() {
@@ -10,7 +11,7 @@ class DictionaryInfo extends React.Component {
         this.state = {
             currentUser: userService.getCurrentUser(),
             isLoading: true,
-            dictionary: {}
+            dictionary: null
         };
 
         this.update = this.update.bind(this);
@@ -34,6 +35,9 @@ class DictionaryInfo extends React.Component {
                 if(res.status === 401) {
                     userService.logout();
                 }
+                this.setState({
+                    isLoading: false
+                });
             });
         }
     }
@@ -46,10 +50,11 @@ class DictionaryInfo extends React.Component {
                         <div>
                             <h3>{this.state.dictionary.name}</h3>
                             <AddNewDicrionary id={this.props.match.params.id}/>
+                            <TermList terms={this.state.dictionary.terms}/>
                         </div>
                     )
                     : (
-                        <div>Some error</div>
+                        <div>{ this.state.isLoading ? (<div>Loading...</div>) : (<div>Some error</div>) }</div>
                     )
                 ):(<div>403 Access denied</div>)
             }
