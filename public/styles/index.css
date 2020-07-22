@@ -23,3 +23,23 @@
 .page {
     margin-top: 30px;
 }
+
+.modal-dialog {
+    position: fixed;
+    top: 88px;
+    width: 446px;
+    left: 0;
+    right: 0;
+    z-index: 4;
+}
+
+.fade-background {
+    position: fixed;
+    background: #000;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    opacity: 0.2;
+    z-index: 2;
+}

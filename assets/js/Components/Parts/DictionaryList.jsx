@@ -1,19 +1,53 @@
 import React from 'react';
+import { Link } from "react-router-dom";
+import dictService from  "./../../Services/dict";
+import YesNoModal from "../Parts/YesNoModal";
 
-function DictionaryList(props) {
-    const dictionaries = props.dictionaries;
-    const listItems = dictionaries.map((dictionary) =>
-        <div className="card" key={dictionary.id}>
-            <div className="card-body">
-                <h5 className="card-title">{dictionary.name}</h5>
+class DictionaryList extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            modalOn: false,
+            dictionaries: props.dictionaries,
+            selectId: null
+        }
+        this.deleteDictionary = this.deleteDictionary.bind(this);
+        this.closeAction = this.closeAction.bind(this);
+    }
+
+    deleteDictionary(id) {
+        console.log('dict', id);
+        this.setState({
+            modalOn: true,
+            selectId: id
+        });
+    }
+
+    closeAction() {
+        this.setState({
+            modalOn: false
+        });
+    }
+    render() {
+        const listItems = this.props.dictionaries.map((dictionary) =>
+            <div className="card card-el" key={dictionary.id}>
+                <div className="card-body">
+                    <h5 className="card-title"><Link to={`/dictionary/${dictionary.id}`}>{dictionary.name}</Link></h5>
+                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                        <button type="button" className="practice btn btn-outline-success btn-sm">Practice</button>
+                        <button onClick={this.deleteDictionary.bind(this, dictionary.id)} type="button" className="delete btn btn-outline-danger btn-sm">Delete</button>
+                    </div>
+                </div>
             </div>
-        </div>
-    );
-    return (
-        <div>
-            {listItems}
-        </div>
-    );
+
+        );
+        return (
+            <div>
+                {listItems}
+                {this.state.modalOn && <YesNoModal message="Are you sure?" okAction={this.deleteDictionary.bind(this, this.state.selectId)} closeAction={this.closeAction}/>}
+            </div>
+        );
+    }
 }
 
 export default DictionaryList;

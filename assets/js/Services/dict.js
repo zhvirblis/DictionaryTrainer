@@ -35,7 +35,7 @@ export default {
         });
     },
     addTerm: function(id, origin, transcription, translate) {
-        return fetch(`/api/dictionary/${id}/addTerm`, {
+        return fetch(`/api/dictionary/${id}/term`, {
             method: "POST",
             credentials: "same-origin",
             headers: {
@@ -48,5 +48,26 @@ export default {
                 translate
             })
         });
-    }
+    },
+    deleteDict: function(id) {
+        return fetch(`/api/dictionary/${id}`, {
+            method: "DELETE",
+            credentials: "same-origin",
+            headers: {
+                "Content-Type": "application/json",
+                ...userService.authHeader()
+            }
+        });
+    },
+    deletetTerm: function(id) {
+        return fetch(`/api/dictionary/${id}/term/${id}`, {
+            method: "DELETE",
+            credentials: "same-origin",
+            headers: {
+                "Content-Type": "application/json",
+                ...userService.authHeader()
+            }
+        });
+    },
+
 }

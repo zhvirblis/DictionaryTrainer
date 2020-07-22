@@ -92,8 +92,30 @@ class DictionaryController extends AbstractController
             }, $terms)
         ));
     }
+
     /**
-     * @Route("/{id}/addTerm", methods="POST")
+     * @Route("/{id}", methods="DELETE")
+     */
+    public function deleteDictionary(Request $request, $id)
+    {
+        $user = $this->getUser();
+        $repository = $this->getDoctrine()->getRepository(Dictionary::class);
+        $dictionary = $repository->findOneBy([
+            "author" => $user->getId(),
+            "id" => $id
+        ]);
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($dictionary);
+        $em->flush();
+        if($dictionary) {
+            return new JsonResponse(['status' => 'ok']);
+        } else {
+            throw new HttpException(404, "Not Found");
+        }
+    }
+
+    /**
+     * @Route("/{id}/term", methods="POST")
      */
     public function addTerms(Request $request, $id) {
         $user = $this->getUser();
@@ -114,5 +136,17 @@ class DictionaryController extends AbstractController
             $em->flush();
         }
         return new JsonResponse(['status' => 'ok']);
+    }
+
+    /**
+     * @Route("/{dictId}/term/{termId}", methods="DELETE")
+     */
+    public function deleteTerms(Request $request, $dictId, $termId) {
+        $user = $this->getUser();
+        $repository = $this->getDoctrine()->getRepository(Term::class);
+        $dictionary = $repository->findOneBy([
+            "author" => $user->getId(),
+            "id" => $dictId
+        ]);
     }
 }
