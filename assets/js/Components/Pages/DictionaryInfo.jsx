@@ -49,8 +49,8 @@ class DictionaryInfo extends React.Component {
                     this.state.dictionary ? (
                         <div>
                             <h3>{this.state.dictionary.name}</h3>
-                            <AddNewDicrionary id={this.props.match.params.id}/>
-                            <TermList terms={this.state.dictionary.terms}/>
+                            <AddNewDicrionary id={this.props.match.params.id} update={this.update}/>
+                            <TermList dictId={this.props.match.params.id} terms={this.state.dictionary.terms} update={this.update}/>
                         </div>
                     )
                     : (

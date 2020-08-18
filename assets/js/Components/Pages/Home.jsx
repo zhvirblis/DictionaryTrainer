@@ -38,7 +38,7 @@ class Home extends React.Component {
         return (
             <div className="container-sm">
                 <AddNewDicrionary update={this.update}/>
-                <DictionaryList dictionaries={this.state.dictionaries}/>
+                <DictionaryList dictionaries={this.state.dictionaries} update={this.update}/>
             </div>
         );
     }

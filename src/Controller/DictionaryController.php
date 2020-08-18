@@ -143,10 +143,23 @@ class DictionaryController extends AbstractController
      */
     public function deleteTerms(Request $request, $dictId, $termId) {
         $user = $this->getUser();
-        $repository = $this->getDoctrine()->getRepository(Term::class);
+        $repository = $this->getDoctrine()->getRepository(Dictionary::class);
         $dictionary = $repository->findOneBy([
             "author" => $user->getId(),
             "id" => $dictId
         ]);
+        $repTerm = $this->getDoctrine()->getRepository(Term::class);
+        $currTerm = $repTerm->findOneBy([
+            "id" => $termId,
+            "dictionaryId" => $dictionary->getId()
+        ]);
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($currTerm);
+        $em->flush();
+        if($currTerm) {
+            return new JsonResponse(['status' => 'ok']);
+        } else {
+            throw new HttpException(404, "Not Found");
+        }
     }
 }

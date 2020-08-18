@@ -15,12 +15,24 @@ class DictionaryList extends React.Component {
         this.closeAction = this.closeAction.bind(this);
     }
 
-    deleteDictionary(id) {
-        console.log('dict', id);
+    deleteDictionaryModal(id) {
         this.setState({
             modalOn: true,
             selectId: id
         });
+    }
+
+    deleteDictionary(id) {
+        this.setState({
+            modalOn: false
+        });
+        dictService.deleteDict(id)
+            .then((res) => {
+                res.json().then((res) => {
+                    this.props.update()
+                })
+            })
+            .catch();
     }
 
     closeAction() {
@@ -35,7 +47,7 @@ class DictionaryList extends React.Component {
                     <h5 className="card-title"><Link to={`/dictionary/${dictionary.id}`}>{dictionary.name}</Link></h5>
                     <div class="btn-group btn-group-toggle" data-toggle="buttons">
                         <button type="button" className="practice btn btn-outline-success btn-sm">Practice</button>
-                        <button onClick={this.deleteDictionary.bind(this, dictionary.id)} type="button" className="delete btn btn-outline-danger btn-sm">Delete</button>
+                        <button onClick={this.deleteDictionaryModal.bind(this, dictionary.id)} type="button" className="delete btn btn-outline-danger btn-sm">Delete</button>
                     </div>
                 </div>
             </div>

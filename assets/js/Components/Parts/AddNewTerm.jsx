@@ -19,9 +19,8 @@ class AddNewDicrionary extends React.Component {
     handleAddTerm() {
         dictService.addTerm(this.props.id, this.state.origin, this.state.transcription, this.state.translate)
             .then((res) => {
-                debugger
                 res.json().then((res) => {
-                    //this.props.update()
+                    this.props.update()
                 });
             })
             .catch();

@@ -59,8 +59,8 @@ export default {
             }
         });
     },
-    deletetTerm: function(id) {
-        return fetch(`/api/dictionary/${id}/term/${id}`, {
+    deleteTerm: function(dictId, termId) {
+        return fetch(`/api/dictionary/${dictId}/term/${termId}`, {
             method: "DELETE",
             credentials: "same-origin",
             headers: {
