@@ -1,12 +1,12 @@
 import React from 'react';
 import dictService from  "./../../Services/dict";
 import YesNoModal from "../Parts/YesNoModal";
+import TermCard from "./TermCard";
 
 class TermList extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            modalOn: false,
             terms: props.terms,
             selectId: null
         }
@@ -43,15 +43,7 @@ class TermList extends React.Component {
 
     render() {
         const listItems = this.props.terms.map((term) =>
-            <div className="card" key={term.id}>
-                <div className="card-body card-el">
-                    <h5 className="card-title">{term.origin}</h5>
-                    <h5 className="card-title">{term.transcription}</h5>
-                    <h5 className="card-title">{term.translate}</h5>
-                    <h5 className="card-title">{term.helper}</h5>
-                    <button onClick={this.deleteTermModal.bind(this, term.id)} type="button" className="delete btn btn btn-danger btn-sm">Delete</button>
-                </div>
-            </div>
+            <TermCard term={term} dictId={this.props.dictId} update={this.props.update} deleteTermModal={this.deleteTermModal} key={term.id}/>
         );
         return (
             <div>

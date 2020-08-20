@@ -117,13 +117,16 @@ class DictionaryController extends AbstractController
     /**
      * @Route("/{id}/term", methods="POST")
      */
-    public function addTerms(Request $request, $id) {
+    public function addTerm(Request $request, $id) {
         $user = $this->getUser();
         $repository = $this->getDoctrine()->getRepository(Dictionary::class);
         $dictionary = $repository->findOneBy([
             "author" => $user->getId(),
             "id" => $id
         ]);
+        if(!$dictionary) {
+            throw new HttpException(404, "Dictionary not found");
+        }
         $term = new Term(); 
         $form = $this->createForm(TermType::class, $term);
         $form->handleRequest($request);
@@ -141,13 +144,16 @@ class DictionaryController extends AbstractController
     /**
      * @Route("/{dictId}/term/{termId}", methods="DELETE")
      */
-    public function deleteTerms(Request $request, $dictId, $termId) {
+    public function deleteTerm(Request $request, $dictId, $termId) {
         $user = $this->getUser();
         $repository = $this->getDoctrine()->getRepository(Dictionary::class);
         $dictionary = $repository->findOneBy([
             "author" => $user->getId(),
             "id" => $dictId
         ]);
+        if(!$dictionary) {
+            throw new HttpException(404, "Dictionary not found");
+        }
         $repTerm = $this->getDoctrine()->getRepository(Term::class);
         $currTerm = $repTerm->findOneBy([
             "id" => $termId,
@@ -161,5 +167,38 @@ class DictionaryController extends AbstractController
         } else {
             throw new HttpException(404, "Not Found");
         }
+    }
+
+    /**
+     * @Route("/{dictId}/term/{termId}/edit", methods="POST")
+     */
+    public function editTerm(Request $request, $dictId, $termId) {
+        $user = $this->getUser();
+        $repository = $this->getDoctrine()->getRepository(Dictionary::class);
+        $dictionary = $repository->findOneBy([
+            "author" => $user->getId(),
+            "id" => $dictId
+        ]);
+
+        if(!$dictionary) {
+            throw new HttpException(404, "Dictionary not found");
+        }
+
+        $repTerm = $this->getDoctrine()->getRepository(Term::class);
+        $currTerm = $repTerm->findOneBy([
+            "id" => $termId,
+            "dictionaryId" => $dictionary->getId()
+        ]);
+
+        $form = $this->createForm(TermType::class, $currTerm);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($currTerm);
+            $em->flush();
+            return new JsonResponse(['status' => 'ok']);
+        }
+        throw new HttpException(400, "Invalid data");
     }
 }

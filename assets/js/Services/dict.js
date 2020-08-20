@@ -69,5 +69,19 @@ export default {
             }
         });
     },
-
+    editTerm: function(dictId, termId, origin, transcription, translate) {
+        return fetch(`/api/dictionary/${dictId}/term/${termId}/edit`, {
+            method: "POST",
+            credentials: "same-origin",
+            headers: {
+                "Content-Type": "application/json",
+                ...userService.authHeader()
+            },
+            body: JSON.stringify({
+                origin,
+                transcription,
+                translate
+            })
+        });
+    }
 }

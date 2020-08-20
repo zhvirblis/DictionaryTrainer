@@ -43,3 +43,31 @@
     opacity: 0.2;
     z-index: 2;
 }
+
+.termcard button {
+    margin-right: 6px;
+}
+
+.termcard button.save, .termcard button.cancel {
+    display: none;
+}
+
+.termcard.editing button.save, .termcard.editing button.cancel {
+    display: initial;
+}
+
+.termcard.editing button.edit, .termcard.editing button.delete {
+    display: none;
+}
+
+.termcard input {
+    display: none;
+}
+
+.termcard.editing input {
+    display: initial;
+}
+
+.termcard.editing .card-title {
+    display: none;
+}
