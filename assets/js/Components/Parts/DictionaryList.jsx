@@ -45,8 +45,8 @@ class DictionaryList extends React.Component {
             <div className="card card-el" key={dictionary.id}>
                 <div className="card-body">
                     <h5 className="card-title"><Link to={`/dictionary/${dictionary.id}`}>{dictionary.name}</Link></h5>
-                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                        <button type="button" className="practice btn btn-outline-success btn-sm">Practice</button>
+                    <div className="btn-group btn-group-toggle" data-toggle="buttons">
+                        <Link to={`/dictionary/${dictionary.id}/practice`} type="button" className="practice btn btn-outline-success btn-sm">Practice</Link>
                         <button onClick={this.deleteDictionaryModal.bind(this, dictionary.id)} type="button" className="delete btn btn-outline-danger btn-sm">Delete</button>
                     </div>
                 </div>

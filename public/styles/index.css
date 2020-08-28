@@ -71,3 +71,11 @@
 .termcard.editing .card-title {
     display: none;
 }
+
+.practice-page .btn.btn-primary.btn-lg {
+    margin: 16px 0;
+}
+
+.practice-page .alert-danger {
+    margin-top: 32px;
+}
