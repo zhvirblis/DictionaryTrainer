@@ -1,7 +1,7 @@
 import React from 'react';
-import dictService from  "./../../Services/dict";
-import userService from "./../../Services/user.js";
-import PracticeProcess from "./../Parts/PracticeProcess";
+import dictService from  "./../../../Services/dict";
+import userService from "./../../../Services/user.js";
+import PracticeProcess from "./Parts/PracticeProcess";
 
 class Practice extends React.Component {
     
@@ -195,7 +195,7 @@ class Practice extends React.Component {
                         </div>
                     </div>
                     {this.state.errorMessage && (<div className="alert alert-danger" role="alert">
-                        {{errorMessage}}
+                        {this.state.errorMessage}
                     </div>)}
                     <button type="button" className="btn btn-primary btn-lg" onClick={this.startTest}>Start</button>
                     </div>)

@@ -1,8 +1,8 @@
 import React from 'react';
-import dictService from  "./../../Services/dict";
-import userService from "./../../Services/user";
-import AddNewDicrionary from "./../Parts/AddNewDicrionary";
-import DictionaryList from "./../Parts/DictionaryList";
+import dictService from  "./../../../Services/dict";
+import userService from "./../../../Services/user";
+import AddNewDicrionary from "./Parts/AddNewDicrionary";
+import DictionaryList from "./Parts/DictionaryList";
 
 class Home extends React.Component {
     constructor() {

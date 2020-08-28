@@ -1,6 +1,6 @@
 import React from 'react';
 
-import dictService from  "./../../Services/dict";
+import dictService from  "./../../../../Services/dict";
 
 class AddNewDicrionary extends React.Component {
     constructor() {

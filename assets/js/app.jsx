@@ -11,7 +11,7 @@ import Home from './Components/Pages/Home';
 import NotFound from './Components/Pages/NotFound';
 import Login from './Components/Pages/Login';
 import DictionaryInfo from './Components/Pages/DictionaryInfo';
-import Practice from './Components/Pages/Practice.jsx';
+import Practice from './Components/Pages/Practice';
 
 import userService from  "./Services/user";
 

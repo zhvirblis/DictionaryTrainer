@@ -1,8 +1,8 @@
 import React from 'react';
-import dictService from  "./../../Services/dict";
-import userService from "./../../Services/user";
-import AddNewDicrionary from "./../Parts/AddNewTerm";
-import TermList from "./../Parts/TermList";
+import dictService from  "./../../../Services/dict";
+import userService from "./../../../Services/user";
+import AddNewDicrionary from "./Parts/AddNewTerm";
+import TermList from "./Parts/TermList";
 
 class DictionaryInfo extends React.Component {
     constructor() {

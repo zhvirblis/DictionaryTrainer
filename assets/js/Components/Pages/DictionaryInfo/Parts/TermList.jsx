@@ -1,6 +1,6 @@
 import React from 'react';
-import dictService from  "./../../Services/dict";
-import YesNoModal from "../Parts/YesNoModal";
+import dictService from  "./../../../../Services/dict";
+import YesNoModal from "../../../Parts/YesNoModal";
 import TermCard from "./TermCard";
 
 class TermList extends React.Component {

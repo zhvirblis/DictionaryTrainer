@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from "react-router-dom";
-import dictService from  "./../../Services/dict";
-import YesNoModal from "../Parts/YesNoModal";
+import dictService from  "./../../../../Services/dict";
+import YesNoModal from "../../../Parts/YesNoModal";
 
 class DictionaryList extends React.Component {
     constructor(props) {

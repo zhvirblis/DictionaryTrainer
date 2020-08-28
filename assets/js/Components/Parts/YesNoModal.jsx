@@ -24,7 +24,7 @@ function YesNoModal(props) {
                     </div>
                 </div>
             </div>
-            <div class="fade-background">
+            <div className="fade-background">
             </div>
         </div>
     );
