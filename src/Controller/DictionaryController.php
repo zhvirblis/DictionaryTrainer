@@ -62,7 +62,32 @@ class DictionaryController extends AbstractController
         throw new HttpException(400, "Invalid data");
     }
 
+    /**
+     * @Route("/{id}/edit", methods="POST")
+     */
+    public function edit(Request $request, $id)
+    {
+        $user = $this->getUser();
+        $repository = $this->getDoctrine()->getRepository(Dictionary::class);
+        $dictionary = $repository->findOneBy([
+            "author" => $user->getId(),
+            "id" => $id
+        ]);
+        $form = $this->createForm(DictionaryType::class, $dictionary);
+        $form->handleRequest($request);
 
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            
+            $em->persist($dictionary);
+            $em->flush();
+
+            return new JsonResponse(['status' => 'ok']);
+        }
+        
+        throw new HttpException(400, "Invalid data");
+    }
+    
     /**
      * @Route("/{id}", methods="GET")
      */

@@ -79,3 +79,18 @@
 .practice-page .alert-danger {
     margin-top: 32px;
 }
+
+.dict-name {
+    display: inline;
+}
+.btn-dict-name {
+    font-size: 11px;
+    padding: 1px 4px;
+    position: relative;
+    top: -7px;
+    margin: 0 4px;
+}
+.title-wrap {
+    margin-bottom: 19px;
+    width: 241px;
+}

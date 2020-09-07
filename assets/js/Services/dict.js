@@ -34,6 +34,19 @@ export default {
             })
         });
     },
+    edit: function(newName, id) {
+        return fetch(`/api/dictionary/${id}/edit`, {
+            method: "POST",
+            credentials: "same-origin",
+            headers: {
+                "Content-Type": "application/json",
+                ...userService.authHeader()
+            },
+            body: JSON.stringify({
+                name: newName
+            })
+        });
+    },
     addTerm: function(id, origin, transcription, translate) {
         return fetch(`/api/dictionary/${id}/term`, {
             method: "POST",
