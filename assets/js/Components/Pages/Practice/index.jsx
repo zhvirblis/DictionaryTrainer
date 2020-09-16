@@ -2,6 +2,7 @@ import React from 'react';
 import dictService from  "./../../../Services/dict";
 import userService from "./../../../Services/user.js";
 import PracticeProcess from "./Parts/PracticeProcess";
+import PracticeSettings from "./Parts/PracticeSettings";
 
 class Practice extends React.Component {
     
@@ -78,127 +79,30 @@ class Practice extends React.Component {
             <div className="container-sm">
             { this.state.currentUser ? (
                 this.state.dictionary ? (
-                    this.state.started ? (<PracticeProcess/>) : (
-                    <div className="practice-page">
-                    <h1>{this.state.dictionary.name}</h1>
-                    <div className="row">
-                        <div className="col-sm">
-                            <div className="card">
-                                <div className="card-body">            
-                                    <h3>Question</h3>
-                                    <div className="form-group">
-                                        <div className="form-check">
-                                            <input
-                                                name="questionOrigin"
-                                                checked={this.state.questionOrigin}
-                                                className="form-check-input"
-                                                type="checkbox"
-                                                id="question_origin"
-                                                onChange={this.handleCheckbox}
-                                                disabled={this.state.answerOrigin || this.state.questionTranslate && this.state.questionTranscription}
-                                            />
-                                            <label className="form-check-label" htmlFor="question_origin">
-                                                Origin
-                                            </label>
-                                        </div>   
-                                    </div> 
-                                    <div className="form-group">
-                                        <div className="form-check">
-                                            <input 
-                                                name="questionTranscription"
-                                                checked={this.state.questionTranscription}
-                                                className="form-check-input"
-                                                type="checkbox"
-                                                id="question_transcription"
-                                                onChange={this.handleCheckbox}
-                                                disabled={this.state.answerTranscription || this.state.questionOrigin && this.state.questionTranslate}
-                                            />
-                                            <label className="form-check-label" htmlFor="question_transcription">
-                                                Transcription
-                                            </label>
-                                        </div>   
-                                    </div> 
-                                    <div className="form-group">
-                                        <div className="form-check">
-                                            <input 
-                                                name="questionTranslate"
-                                                checked={this.state.questionTranslate}
-                                                className="form-check-input"
-                                                type="checkbox"
-                                                id="question_translate"
-                                                onChange={this.handleCheckbox}
-                                                disabled={this.state.answerTranslate || this.state.questionOrigin && this.state.questionTranscription}
-                                            />
-                                            <label className="form-check-label" htmlFor="question_translate">
-                                                Translate
-                                            </label>
-                                        </div>   
-                                    </div> 
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-sm">
-                            <div className="card">
-                                <div className="card-body">            
-                                    <h3>Answer</h3>
-                                    <div className="form-group">
-                                        <div className="form-check">
-                                            <input
-                                                name="answerOrigin"
-                                                checked={this.state.answerOrigin}
-                                                className="form-check-input"
-                                                type="checkbox"
-                                                value=""
-                                                id="answer_origin"
-                                                disabled={this.state.questionOrigin || this.state.answerTranslate && this.state.answerTranscription}
-                                                onChange={this.handleCheckbox}
-                                            />
-                                            <label className="form-check-label" htmlFor="answer_origin">
-                                                Origin
-                                            </label>
-                                        </div>   
-                                    </div> 
-                                    <div className="form-group">
-                                        <div className="form-check">
-                                            <input 
-                                                name="answerTranscription"
-                                                checked={this.state.answerTranscription}
-                                                className="form-check-input"
-                                                type="checkbox"
-                                                id="answer_transcription"
-                                                disabled={this.state.questionTranscription || this.state.answerOrigin && this.state.answerTranslate}
-                                                onChange={this.handleCheckbox}
-                                            />
-                                            <label className="form-check-label" htmlFor="answer_transcription">
-                                                Transcription
-                                            </label>
-                                        </div>   
-                                    </div> 
-                                    <div className="form-group">
-                                        <div className="form-check">
-                                            <input
-                                                name="answerTranslate"
-                                                checked={this.state.answerTranslate}
-                                                className="form-check-input"
-                                                type="checkbox"
-                                                id="answer_translate"
-                                                disabled={this.state.questionTranslate || this.state.answerOrigin && this.state.answerTranscription}
-                                                onChange={this.handleCheckbox}
-                                            />
-                                            <label className="form-check-label" htmlFor="answer_translate">
-                                                Translate
-                                            </label>
-                                        </div>   
-                                    </div> 
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {this.state.errorMessage && (<div className="alert alert-danger" role="alert">
-                        {this.state.errorMessage}
-                    </div>)}
-                    <button type="button" className="btn btn-primary btn-lg" onClick={this.startTest}>Start</button>
-                    </div>)
+                    this.state.started ? (
+                        <PracticeProcess
+                            dictionary={this.state.dictionary}
+                            questionOrigin={this.state.questionOrigin}
+                            questionTranslate={this.state.questionTranslate}
+                            questionTranscription={this.state.questionTranscription}
+                            answerOrigin={this.state.answerOrigin}
+                            answerTranslate={this.state.answerTranslate}
+                            answerTranscription={this.state.answerTranscription}
+                        />
+                    ) : (
+                        <PracticeSettings
+                            name={this.state.dictionary.name}
+                            questionOrigin={this.state.questionOrigin}
+                            questionTranslate={this.state.questionTranslate}
+                            questionTranscription={this.state.questionTranscription}
+                            answerOrigin={this.state.answerOrigin}
+                            answerTranslate={this.state.answerTranslate}
+                            answerTranscription={this.state.answerTranscription}
+                            handleCheckbox={this.handleCheckbox}
+                            errorMessage={this.state.errorMessage}
+                            startTest={this.startTest}
+                        />
+                    )
                 ) : (
                     <div>{ this.state.isLoading ? (<div>Loading...</div>) : (<div>Some error</div>) }</div>
                 )

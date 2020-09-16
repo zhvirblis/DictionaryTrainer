@@ -94,3 +94,9 @@
     margin-bottom: 19px;
     width: 241px;
 }
+.btn-wrapper .btn {
+    margin: 6px 6px 0 0;
+}
+.btn-wrapper .alert{
+    margin-top: 6px;
+}

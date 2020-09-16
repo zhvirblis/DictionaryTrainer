@@ -33,7 +33,6 @@ class Login extends React.Component {
                 this.setState({isLoading: false});
                 if(res.status === 200) {
                     res.json().then((res) => {
-                        console.log(res);
                         if(res.access_token) {
                             let user = JSON.stringify(res);
                             localStorage.setItem("user", user);
