@@ -3,6 +3,8 @@ import dictService from  "./../../../Services/dict";
 import userService from "./../../../Services/user";
 import AddNewDicrionary from "./Parts/AddNewTerm";
 import TermList from "./Parts/TermList";
+import PracticeSettings from "./../Practice/Parts/PracticeSettings";
+import PracticeProcess from "./../Practice/Parts/PracticeProcess";
 
 class DictionaryInfo extends React.Component {
     constructor() {
@@ -13,7 +15,15 @@ class DictionaryInfo extends React.Component {
             isLoading: true,
             dictionary: null,
             editing: false,
-            newName: null
+            newName: null,
+            questionOrigin: false,
+            questionTranscription: false,
+            questionTranslate: false,
+            answerOrigin: false,
+            answerTranscription: false,
+            answerTranslate: false,
+            errorMessage: "",
+            testStarted: false
         };
 
         this.update = this.update.bind(this);
@@ -21,6 +31,9 @@ class DictionaryInfo extends React.Component {
         this.saveName = this.saveName.bind(this);
         this.handleChangeName = this.handleChangeName.bind(this);
         this.cancelChangeName = this.cancelChangeName.bind(this);
+        this.handleSettingsCheckbox = this.handleSettingsCheckbox.bind(this);
+        this.startTest = this.startTest.bind(this);
+        this.handleTermCheckbox = this.handleTermCheckbox.bind(this);
     }
 
     componentDidMount() {
@@ -33,8 +46,12 @@ class DictionaryInfo extends React.Component {
             dictService.getInfo(id).then((res) => {
                 if(res.status === 200) {
                     res.json().then((res) => {
+                        res.terms = res.terms.map((e)=>{
+                            e.checked = false;
+                            return e;
+                        });
                         this.setState({
-                            dictionary: res,
+                            dictionary: res
                         });
                     });
                 }
@@ -72,6 +89,16 @@ class DictionaryInfo extends React.Component {
         });
     }
 
+    handleSettingsCheckbox(event) {
+        const target = event.target;
+        const value = target.checked;
+        const name = target.name;
+        this.setState({
+            [name]: value,
+            errorMessage: ""
+        });
+    }
+
     handleChangeName(event) {
         this.setState({newName: event.target.value});
     }
@@ -81,6 +108,35 @@ class DictionaryInfo extends React.Component {
             editing: false
         });
     }
+
+    startTest() {
+        if((this.state.answerOrigin || this.state.answerTranslate || this.state.answerTranscription) 
+            && (this.state.questionOrigin || this.state.questionTranslate || this.state.questionTranscription)) {
+            this.setState({
+                testStarted: true
+            });
+        } else {
+            this.setState({
+                errorMessage: "Check items"
+            });
+        }
+    }
+
+    handleTermCheckbox(id) {
+        console.log("ded", id);
+        this.setState(state => {
+            let dictCopy = Object.assign({},state.dictionary);
+            dictCopy.terms = dictCopy.terms.map(el => {
+                if(el.id === id) {
+                    el.checked = !el.checked; 
+                }
+                return el;
+            });
+            return dictCopy;
+        });
+    }
+
+    
 
     render() {
         return (
@@ -104,8 +160,34 @@ class DictionaryInfo extends React.Component {
                                 </div>
                             )}
                             </div>
-                            <AddNewDicrionary id={this.props.match.params.id} update={this.update}/>
-                            <TermList dictId={this.props.match.params.id} terms={this.state.dictionary.terms} update={this.update}/>
+                            { this.state.testStarted ?
+                            (
+                                <PracticeProcess
+                                    dictionary={this.state.dictionary}       
+                                    questionOrigin={this.state.questionOrigin}
+                                    questionTranslate={this.state.questionTranslate}
+                                    questionTranscription={this.state.questionTranscription}
+                                    answerOrigin={this.state.answerOrigin}
+                                    answerTranslate={this.state.answerTranslate}
+                                    answerTranscription={this.state.answerTranscription}
+                                />
+                            ):(
+                                <div>
+                                <AddNewDicrionary id={this.props.match.params.id} update={this.update}/>
+                                <PracticeSettings
+                                    questionOrigin={this.state.questionOrigin}
+                                    questionTranslate={this.state.questionTranslate}
+                                    questionTranscription={this.state.questionTranscription}
+                                    answerOrigin={this.state.answerOrigin}
+                                    answerTranslate={this.state.answerTranslate}
+                                    answerTranscription={this.state.answerTranscription}
+                                    handleCheckbox={this.handleSettingsCheckbox}
+                                    errorMessage={this.state.errorMessage}
+                                    startTest={this.startTest}
+                                />
+                                <TermList handleCheckbox={this.handleTermCheckbox} dictId={this.props.match.params.id} terms={this.state.dictionary.terms} update={this.update}/>
+                                </div>
+                            )}
                         </div>
                     )
                     : (

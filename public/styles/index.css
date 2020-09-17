@@ -60,7 +60,7 @@
     display: none;
 }
 
-.termcard input {
+.termcard input.edit-inp {
     display: none;
 }
 
@@ -99,4 +99,15 @@
 }
 .btn-wrapper .alert{
     margin-top: 6px;
+}
+.btn-practice-wrapper {
+    margin: 30px;
+    text-align: center;
+}
+.card-term {
+    display: flex;
+    align-items: center;
+}
+.check-box-wrapper {
+    margin-right: 23px;
 }

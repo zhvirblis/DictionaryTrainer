@@ -43,7 +43,7 @@ class TermList extends React.Component {
 
     render() {
         const listItems = this.props.terms.map((term) =>
-            <TermCard term={term} dictId={this.props.dictId} update={this.props.update} deleteTermModal={this.deleteTermModal} key={term.id}/>
+            <TermCard handleCheckbox={this.props.handleCheckbox.bind(this, term.id)} term={term} dictId={this.props.dictId} update={this.props.update} deleteTermModal={this.deleteTermModal} key={term.id}/>
         );
         return (
             <div>

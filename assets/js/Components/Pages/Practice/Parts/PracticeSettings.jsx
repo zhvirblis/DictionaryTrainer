@@ -9,7 +9,6 @@ class PracticeSettings extends React.Component {
     render() {
         return (
             <div className="practice-page">
-                <h1>{this.props.name}</h1>
                 <div className="row">
                     <div className="col-sm">
                         <div className="card">
@@ -126,7 +125,9 @@ class PracticeSettings extends React.Component {
                 {this.props.errorMessage && (<div className="alert alert-danger" role="alert">
                     {this.props.errorMessage}
                 </div>)}
-                <button type="button" className="btn btn-primary btn-lg" onClick={this.props.startTest}>Start</button>
+                <div className="btn-practice-wrapper">
+                    <button type="button" className="btn-practice btn btn-success btn-lg" onClick={this.props.startTest}>Start Practice</button>
+                </div>
             </div>
         )
     }
