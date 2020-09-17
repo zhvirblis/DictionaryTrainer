@@ -123,7 +123,6 @@ class DictionaryInfo extends React.Component {
     }
 
     handleTermCheckbox(id) {
-        console.log("ded", id);
         this.setState(state => {
             let dictCopy = Object.assign({},state.dictionary);
             dictCopy.terms = dictCopy.terms.map(el => {
