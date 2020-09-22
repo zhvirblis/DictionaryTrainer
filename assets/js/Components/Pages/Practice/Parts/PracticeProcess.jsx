@@ -11,7 +11,7 @@ class PracticeProcess extends React.Component {
         this.termsCopy = props.dictionary.terms.filter((term) => {
             return ((props.questionOrigin && term.origin || props.questionTranslate && term.translate || props.questionTranscription && term.transcription)
                 && (props.answerOrigin && term.origin || props.answerTranslate && term.translate || props.answerTranscription && term.transcription))
-                // && (!props.dictionary.terms.some(el => el.checked) || term.checked)
+                && (!props.dictionary.terms.some(el => el.checked) || term.checked)
         });
 
         let wordsCount = this.termsCopy.length;
