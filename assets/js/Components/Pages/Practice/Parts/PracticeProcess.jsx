@@ -7,28 +7,31 @@ import Answer from "./Answer";
 class PracticeProcess extends React.Component {
     constructor(props){
         super(props);
+
+        this.termsCopy = props.dictionary.terms.filter((term) => {
+            return ((props.questionOrigin && term.origin || props.questionTranslate && term.translate || props.questionTranscription && term.transcription)
+                && (props.answerOrigin && term.origin || props.answerTranslate && term.translate || props.answerTranscription && term.transcription))
+                // && (!props.dictionary.terms.some(el => el.checked) || term.checked)
+        });
+
+        let wordsCount = this.termsCopy.length;
+        
         this.state = {
             currentTermCard: null,
             answerOrigin: "",
             answerTranscription: "",
             answerTranslate: "",
             errorMessage: "",
-            successMessage: ""
+            successMessage: "",
+            wordsCount
         }
 
-        this.termsCopy = props.dictionary.terms.filter((term) => {
-            return ((props.questionOrigin && term.origin || props.questionTranslate && term.translate || props.questionTranscription && term.transcription)
-                || (props.answerOrigin && term.origin || props.answerTranslate && term.translate || props.answerTranscription && term.transcription))
-                && (!props.dictionary.terms.some(el => el.checked) || term.checked)
-                
-        });
         this.handleInputChange = this.handleInputChange.bind(this);
         this.checkAnswerHandler = this.checkAnswerHandler.bind(this);
         this.skipAnswer = this.skipAnswer.bind(this);
         this.nextQuesstion = this.nextQuesstion.bind(this);
     }
 
-    
     componentDidMount() {
         this.setNewCard();
     }
@@ -178,9 +181,9 @@ class PracticeProcess extends React.Component {
                                 )}
                                 </form>
                             </div>
-                        ):(
-                            <div>No Cards</div>
-                        ) }
+                        ):
+                            this.state.wordsCount ? (<div>Done!</div>) : (<div>No Cards</div>) 
+                         }
                 </div>
             </div>
         );
