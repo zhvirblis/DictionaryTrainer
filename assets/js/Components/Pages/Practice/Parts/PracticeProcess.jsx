@@ -80,9 +80,9 @@ class PracticeProcess extends React.Component {
     }
 
     checkAnswer() {
-        return (!this.props.answerOrigin || this.state.currentTermCard.origin == this.state.answerOrigin)
-            && (!this.props.answerTranscription || this.state.currentTermCard.transcription == this.state.answerTranscription)
-            && (!this.props.answerTranslate || this.state.currentTermCard.translate == this.state.answerTranslate);
+        return (!this.props.answerOrigin || this.state.currentTermCard.origin || this.state.currentTermCard.origin == this.state.answerOrigin)
+            && (!this.props.answerTranscription || this.state.currentTermCard.transcription || this.state.currentTermCard.transcription == this.state.answerTranscription)
+            && (!this.props.answerTranslate || this.state.currentTermCard.translate || this.state.currentTermCard.translate == this.state.answerTranslate);
     }
 
     getRightAnswer() {

@@ -84,6 +84,10 @@ class TermCard extends React.Component {
                             <button onClick={this.props.deleteTermModal.bind(this, term.id)} type="button" className="delete btn btn btn-danger btn-sm">Delete</button>
                             <button onClick={this.cancel} type="button" className="btn cancel btn btn-light btn-sm">Cancel</button>
                         </p>
+                        <div class="answer-counts">
+                            <span class="badge badge-success right-answer-count">{term.rightAnswersCount}</span>
+                            <span class="badge badge-danger wrong-answer-count">{term.wrongAnswersCount}</span>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -112,7 +112,9 @@ class DictionaryController extends AbstractController
                     "origin" => $term->getOrigin(),
                     "transcription" => $term->getTranscription(),
                     "translate" => $term->getTranslate(),
-                    "helper" => $term->getHelper()
+                    "helper" => $term->getHelper(),
+                    "rightAnswersCount" => $term->getRightAnswersCount(),
+                    "wrongAnswersCount" => $term->getWrongAnswerCount()
                 );
             }, $terms)
         ));
@@ -157,6 +159,8 @@ class DictionaryController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $term->setWrongAnswerCount(0);
+            $term->setRightAnswersCount(0);
             //$dictionary->addTerm($term);
             $em = $this->getDoctrine()->getManager();
             $term->setDictionary($dictionary);
@@ -225,5 +229,22 @@ class DictionaryController extends AbstractController
             return new JsonResponse(['status' => 'ok']);
         }
         throw new HttpException(400, "Invalid data");
+    }
+
+    public function increaseRightAnswers() {
+        $user = $this->getUser();
+        $repository = $this->getDoctrine()->getRepository(Dictionary::class);
+        $dictionary = $repository->findOneBy([
+            "author" => $user->getId(),
+            "id" => $dictId
+        ]);
+
+        if(!$dictionary) {
+            throw new HttpException(404, "Dictionary not found");
+        }
+    }
+
+    public function increaseWrongAnswers() {
+
     }
 }

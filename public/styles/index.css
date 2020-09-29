@@ -111,3 +111,11 @@
 .check-box-wrapper {
     margin-right: 23px;
 }
+.answer-counts {
+    position: absolute;
+    top: 14px;
+    right: 18px;
+}
+.answer-counts .badge {
+    margin: 8px;
+}

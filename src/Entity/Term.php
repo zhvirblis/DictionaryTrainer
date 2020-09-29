@@ -44,6 +44,16 @@ class Term
      */
     private $dictionaryId;
 
+    /**
+     * @ORM\Column(type="integer", options={"default" : 0})
+     */
+    private $rightAnswersCount;
+
+    /**
+     * @ORM\Column(type="integer", options={"default" : 0})
+     */
+    private $wrongAnswersCount;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -90,6 +100,23 @@ class Term
     public function getHelper()
     {
         return $this->helper;
+    }
+
+    public function getRightAnswersCount() {
+        return $this->rightAnswersCount;
+    }
+
+    public function setRightAnswersCount(string $rightAnswersCount) {
+        $this->rightAnswersCount = $rightAnswersCount;
+        return $this;
+    }
+
+    public function getWrongAnswerCount() {
+        return $this->wrongAnswersCount;
+    }
+    
+    public function setWrongAnswerCount($wrongAnswersCount) {
+        $this->wrongAnswersCount = $wrongAnswersCount;
     }
 
     /**
