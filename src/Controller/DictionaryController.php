@@ -231,7 +231,10 @@ class DictionaryController extends AbstractController
         throw new HttpException(400, "Invalid data");
     }
 
-    public function increaseRightAnswers() {
+    /**
+     * @Route("/{dictId}/term/{termId}/right")
+     */
+    public function increaseRightAnswers(Request $request, $dictId, $termId) {
         $user = $this->getUser();
         $repository = $this->getDoctrine()->getRepository(Dictionary::class);
         $dictionary = $repository->findOneBy([
@@ -242,9 +245,44 @@ class DictionaryController extends AbstractController
         if(!$dictionary) {
             throw new HttpException(404, "Dictionary not found");
         }
+
+        $repTerm = $this->getDoctrine()->getRepository(Term::class);
+        $currTerm = $repTerm->findOneBy([
+            "id" => $termId,
+            "dictionaryId" => $dictionary->getId()
+        ]);
+
+        $em = $this->getDoctrine()->getManager();
+        $currTerm->increaseRightAnswers();
+        $em->persist($currTerm);
+        $em->flush();
+        return new JsonResponse(['status' => "ok"]);
     }
 
-    public function increaseWrongAnswers() {
+    /**
+     * @Route("/{dictId}/term/{termId}/wrong")
+     */
+    public function increaseWrongAnswers(Request $request, $dictId, $termId) {
+        $user = $this->getUser();
+        $repository = $this->getDoctrine()->getRepository(Dictionary::class);
+        $dictionary = $repository->findOneBy([
+            "author" => $user->getId(),
+            "id" => $dictId
+        ]);
 
+        if(!$dictionary) {
+            throw new HttpException(404, "Dictionary not found");
+        }
+        $repTerm = $this->getDoctrine()->getRepository(Term::class);
+        $currTerm = $repTerm->findOneBy([
+            "id" => $termId,
+            "dictionaryId" => $dictionary->getId()
+        ]);
+
+        $em = $this->getDoctrine()->getManager();
+        $currTerm->increaseWrongAnswers();
+        $em->persist($currTerm);
+        $em->flush();
+        return new JsonResponse(['status' => "ok"]);
     }
 }

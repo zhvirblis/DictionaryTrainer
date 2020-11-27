@@ -69,20 +69,36 @@ class PracticeProcess extends React.Component {
         event.preventDefault();
         if(this.checkAnswer()) {
             this.setState({
-                successMessage: "Right!",
-
+                successMessage: "Right!"
             });
+            dictService.increaseRightAnswer(this.props.dictionary.id, this.state.currentTermCard.id)
+                .then(res => {
+                    res.json().then((res) => {
+                        console.log(res);
+                    });
+                })
+                .catch(err => {
+                    
+                })
         } else {
             this.setState({
                 errorMessage: `Wrong! Right answer is ${this.getRightAnswer()}` 
             });
+            dictService.increaseWrongAnswer(this.props.dictionary.id, this.state.currentTermCard.id)
+                .then(res => {
+                    res.json().then((res) => {
+                        console.log(res);
+                    });
+                })
+                .catch(err => {
+                });       
         }
     }
 
     checkAnswer() {
-        return (!this.props.answerOrigin || this.state.currentTermCard.origin || this.state.currentTermCard.origin == this.state.answerOrigin)
-            && (!this.props.answerTranscription || this.state.currentTermCard.transcription || this.state.currentTermCard.transcription == this.state.answerTranscription)
-            && (!this.props.answerTranslate || this.state.currentTermCard.translate || this.state.currentTermCard.translate == this.state.answerTranslate);
+        return (!this.props.answerOrigin || this.state.currentTermCard.origin && this.state.currentTermCard.origin == this.state.answerOrigin)
+            && (!this.props.answerTranscription || this.state.currentTermCard.transcription && this.state.currentTermCard.transcription == this.state.answerTranscription)
+            && (!this.props.answerTranslate || this.state.currentTermCard.translate && this.state.currentTermCard.translate == this.state.answerTranslate);
     }
 
     getRightAnswer() {
@@ -110,6 +126,14 @@ class PracticeProcess extends React.Component {
         this.setState({
             errorMessage: `Right answer is ${this.getRightAnswer()}`
         });
+        dictService.increaseWrongAnswer(this.props.dictionary.id, this.state.currentTermCard.id)
+            .then(res => {
+                res.json().then((res) => {
+                    console.log(res);
+                });
+            })
+            .catch(err => {
+            });
     }
 
     nextQuesstion() {

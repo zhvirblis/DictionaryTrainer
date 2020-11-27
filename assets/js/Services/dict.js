@@ -96,5 +96,25 @@ export default {
                 translate
             })
         });
+    },
+    increaseRightAnswer: function(dictId, termId) {
+        return fetch(`/api/dictionary/${dictId}/term/${termId}/right`, {
+            method: "POST",
+            credentials: "same-origin",
+            headers: {
+                "Content-Type": "application/json",
+                ...userService.authHeader()
+            }
+        });
+    },
+    increaseWrongAnswer: function(dictId, termId) {
+        return fetch(`/api/dictionary/${dictId}/term/${termId}/wrong`, {
+            method: "POST",
+            credentials: "same-origin",
+            headers: {
+                "Content-Type": "application/json",
+                ...userService.authHeader()
+            }
+        });
     }
 }

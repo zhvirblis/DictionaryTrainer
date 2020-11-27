@@ -106,8 +106,8 @@ class Term
         return $this->rightAnswersCount;
     }
 
-    public function setRightAnswersCount(string $rightAnswersCount) {
-        $this->rightAnswersCount = $rightAnswersCount;
+    public function increaseRightAnswers() {
+        $this->rightAnswersCount++;
         return $this;
     }
 
@@ -115,8 +115,8 @@ class Term
         return $this->wrongAnswersCount;
     }
     
-    public function setWrongAnswerCount($wrongAnswersCount) {
-        $this->wrongAnswersCount = $wrongAnswersCount;
+    public function increaseWrongAnswers() {
+        $this->wrongAnswersCount++;
     }
 
     /**
